@@ -48,6 +48,7 @@ public class Main extends Application {
         scene.setOnKeyPressed(EasyKey.KEY_PRESS);
         scene.setOnKeyReleased(EasyKey.KEY_RELEASE);
 
+        // game loop yo
         AnimationTimer timer = new AnimationTimer() {
             long lastNanoTime;
             public void handle(long currentNanoTime) {
@@ -66,6 +67,7 @@ public class Main extends Application {
                 lastNanoTime = currentNanoTime;
             }
         };
+
         timer.start();
 
         stage.setOnCloseRequest(e -> Platform.exit());

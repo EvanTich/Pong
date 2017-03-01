@@ -67,9 +67,13 @@ public class Ball {
         else if(ball.getCenterX() + ball.getRadius() > Pong.RIGHT_BOUNDS)
             Pong.pong.addScore(1);
 
-        if(ball.getCenterY() - ball.getRadius() < Pong.TOP_BOUNDS ||
-           ball.getCenterY() + ball.getRadius() > Pong.BOTTOM_BOUNDS)
+        if(ball.getCenterY() - ball.getRadius() < Pong.TOP_BOUNDS) {
             bounce();
+            ball.setCenterY(Pong.TOP_BOUNDS + ball.getRadius() + 1);
+        } else if(ball.getCenterY() + ball.getRadius() > Pong.BOTTOM_BOUNDS) {
+            bounce();
+            ball.setCenterY(Pong.BOTTOM_BOUNDS - ball.getRadius() - 1);
+        }
 
         double dx = dist * Math.cos(angle),
                dy = dist * Math.sin(angle);
@@ -85,9 +89,10 @@ public class Ball {
     public void bounce(Paddle paddle) {
         // bounce off of paddle, some calculated angle
         if(hit(paddle)) {
-            //angle = Math.PI - angle; // lame
-            boolean right = paddle.getCenterX() < ball.getCenterX();
-            angle = ((right ? 0 : Math.PI) - Math.atan( (right ? 1 : -1) * (paddle.getCenterY() - ball.getCenterY()) / paddle.getWidth() )) % (2 * Math.PI);
+            if(Math.abs(paddle.getCenterY() - ball.getCenterY()) >= 6.25 || angle % Math.PI == 0) {
+                boolean right = paddle.getCenterX() < ball.getCenterX();
+                angle = ((right ? 0 : Math.PI) - Math.atan((right ? 1 : -1) * (paddle.getCenterY() - ball.getCenterY()) / paddle.getWidth())) % (2 * Math.PI);
+            } else angle = Math.PI - angle;
 
             setSpeed( Math.abs(paddle.getCenterY() - ball.getCenterY()) / 25 + 1);
         }
