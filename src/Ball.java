@@ -89,10 +89,15 @@ public class Ball {
     public void bounce(Paddle paddle) {
         // bounce off of paddle, some calculated angle
         if(hit(paddle)) {
-            if(Math.abs(paddle.getCenterY() - ball.getCenterY()) >= 6.25 || angle % Math.PI == 0) {
-                boolean right = paddle.getCenterX() < ball.getCenterX();
+            // ball to the right
+            boolean right = paddle.getCenterX() < ball.getCenterX();
+
+            if(Math.abs(paddle.getCenterY() - ball.getCenterY()) >= 8 || angle % Math.PI == 0) {
                 angle = ((right ? 0 : Math.PI) - Math.atan((right ? 1 : -1) * (paddle.getCenterY() - ball.getCenterY()) / paddle.getWidth())) % (2 * Math.PI);
-            } else angle = Math.PI - angle;
+            } else {
+                angle = Math.PI - angle;
+                ball.setCenterX( paddle.getRectangle().getX() + (right ? (paddle.getWidth() + ball.getRadius()) : -ball.getRadius() ) );
+            }
 
             setSpeed( Math.abs(paddle.getCenterY() - ball.getCenterY()) / 25 + 1);
         }

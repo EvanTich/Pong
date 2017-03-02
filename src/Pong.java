@@ -73,6 +73,7 @@ public class Pong {
                 player2.moveDown();
         }
 
+        // TODO: make pause screen, able to exit from there
         if(EasyKey.keyPressed(KeyCode.ESCAPE))
             endGame();
     }
